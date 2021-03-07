@@ -71,7 +71,7 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   /// The (optional) set of actions that are displayed at the bottom of the
   /// dialog.
   ///
-  /// Typically this is a list of [FlatButton] widgets.
+  /// Typically this is a list of [TextButton] widgets.
   ///
   /// These widgets will be wrapped in a [ButtonBar], which introduces 8 pixels
   /// of padding on each side.
@@ -154,20 +154,19 @@ class _SingleChoiceConfirmationDialogState<T>
       children: widget.items
           .map(
             (item) => RadioListTile(
-                  title: widget.itemBuilder != null
-                      ? widget.itemBuilder(item)
-                      : Text(item.toString()),
-                  activeColor:
-                      widget.activeColor ?? Theme.of(context).accentColor,
-                  value: item,
-                  groupValue: _chosenItem,
-                  onChanged: (value) {
-                    if (widget.onSelected != null) widget.onSelected(value);
-                    setState(() {
-                      _chosenItem = value;
-                    });
-                  },
-                ),
+              title: widget.itemBuilder != null
+                  ? widget.itemBuilder(item)
+                  : Text(item.toString()),
+              activeColor: widget.activeColor ?? Theme.of(context).accentColor,
+              value: item,
+              groupValue: _chosenItem,
+              onChanged: (value) {
+                if (widget.onSelected != null) widget.onSelected(value);
+                setState(() {
+                  _chosenItem = value;
+                });
+              },
+            ),
           )
           .toList(),
     );
@@ -176,17 +175,19 @@ class _SingleChoiceConfirmationDialogState<T>
   _buildActions() {
     return widget.actions ??
         <Widget>[
-          FlatButton(
-            textColor:
-                widget.actionButtonLabelColor ?? Theme.of(context).accentColor,
+          TextButton(
+            style: TextButton.styleFrom(
+                primary: widget.actionButtonLabelColor ??
+                    Theme.of(context).accentColor),
             child: Text(widget.cancelActionButtonLabel ?? 'CANCEL'),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          FlatButton(
-            textColor:
-                widget.actionButtonLabelColor ?? Theme.of(context).accentColor,
+          TextButton(
+            style: TextButton.styleFrom(
+                primary: widget.actionButtonLabelColor ??
+                    Theme.of(context).accentColor),
             child: Text(widget.submitActionButtonLabel ?? 'OK'),
             onPressed: () {
               Navigator.pop(context);
