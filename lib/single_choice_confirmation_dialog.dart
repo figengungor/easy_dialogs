@@ -10,14 +10,14 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
 
   /// If not provided, no RadioListTile is selected.
 
-  final T initialValue;
+  final T? initialValue;
 
   /// The choice items of type [T] to be used while building items of ListView
   /// which is content of the dialog
   final List<T> items;
 
   /// Callback that is called with selected item of type T when item is selected
-  final ValueChanged<T> onSelected;
+  final ValueChanged<T>? onSelected;
 
   /// Callback that is called with selected item of type T when submit button
   /// inside actions is tapped.
@@ -27,13 +27,13 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   /// If [actions] are provided, then user should save the value when
   /// [onSelected] is called and handle the submit with this value inside a
   /// submit button of this actions.
-  final ValueChanged<T> onSubmitted;
+  final ValueChanged<T>? onSubmitted;
 
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
   ///
   /// Typically a [Text] widget.
-  final Widget title;
+  final Widget? title;
 
   /// Padding around the title.
   ///
@@ -45,7 +45,7 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   /// provided (but see [contentPadding]). If it _is_ null, then an extra 20
   /// pixels of bottom padding is added to separate the [title] from the
   /// [actions].
-  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry? titlePadding;
 
   /// Padding around the content.
 
@@ -62,11 +62,11 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   ///
   ///  * [SemanticsConfiguration.isRouteName], for a description of how this
   ///    value is used.
-  final String semanticLabel;
+  final String? semanticLabel;
 
   /// Callback that is called with selected item of type T which returns a
   /// Widget to build list view item inside dialog
-  final ItemBuilder<T> itemBuilder;
+  final ItemBuilder<T>? itemBuilder;
 
   /// The (optional) set of actions that are displayed at the bottom of the
   /// dialog.
@@ -79,19 +79,19 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   /// If the [title] is not null but the [content] _is_ null, then an extra 20
   /// pixels of padding is added above the [ButtonBar] to separate the [title]
   /// from the [actions].
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// The color of the selected item's radio
-  final Color activeColor;
+  final Color? activeColor;
 
   /// The label of cancel button inside actions
-  final String cancelActionButtonLabel;
+  final String? cancelActionButtonLabel;
 
   /// The label of submit button inside actions
-  final String submitActionButtonLabel;
+  final String? submitActionButtonLabel;
 
   /// The color of label of the default action buttons
-  final Color actionButtonLabelColor;
+  final Color? actionButtonLabelColor;
 
   /// The (optional) horizontal separator used between title, content and
   /// actions.
@@ -101,9 +101,9 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
   final Widget divider;
 
   SingleChoiceConfirmationDialog({
-    Key key,
+    Key? key,
     this.initialValue,
-    @required this.items,
+    required this.items,
     this.onSelected,
     this.onSubmitted,
     this.title,
@@ -117,8 +117,7 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
     this.submitActionButtonLabel,
     this.actionButtonLabelColor,
     this.divider = const Divider(height: 0.0),
-  })  : assert(items != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _SingleChoiceConfirmationDialogState<T> createState() =>
@@ -127,7 +126,7 @@ class SingleChoiceConfirmationDialog<T> extends StatefulWidget {
 
 class _SingleChoiceConfirmationDialogState<T>
     extends State<SingleChoiceConfirmationDialog<T>> {
-  T _chosenItem;
+  T? _chosenItem;
 
   @override
   void initState() {
@@ -153,18 +152,20 @@ class _SingleChoiceConfirmationDialogState<T>
       shrinkWrap: true,
       children: widget.items
           .map(
-            (item) => RadioListTile(
+            (item) => RadioListTile<T>(
               title: widget.itemBuilder != null
-                  ? widget.itemBuilder(item)
+                  ? widget.itemBuilder!(item)
                   : Text(item.toString()),
               activeColor: widget.activeColor ?? Theme.of(context).accentColor,
               value: item,
               groupValue: _chosenItem,
               onChanged: (value) {
-                if (widget.onSelected != null) widget.onSelected(value);
-                setState(() {
-                  _chosenItem = value;
-                });
+                if (value != null) {
+                  widget.onSelected?.call(value);
+                  setState(() {
+                    _chosenItem = value;
+                  });
+                }
               },
             ),
           )
@@ -191,7 +192,9 @@ class _SingleChoiceConfirmationDialogState<T>
             child: Text(widget.submitActionButtonLabel ?? 'OK'),
             onPressed: () {
               Navigator.pop(context);
-              if (widget.onSubmitted != null) widget.onSubmitted(_chosenItem);
+              if (_chosenItem != null) {
+                widget.onSubmitted?.call(_chosenItem!);
+              }
             },
           )
         ];

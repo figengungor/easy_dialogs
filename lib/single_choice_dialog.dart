@@ -9,13 +9,13 @@ class SingleChoiceDialog<T> extends StatelessWidget {
   final List<T> items;
 
   /// Callback that is called with selected item of type T when item is selected
-  final ValueChanged<T> onSelected;
+  final ValueChanged<T>? onSelected;
 
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
   ///
   /// Typically a [Text] widget.
-  final Widget title;
+  final Widget? title;
 
   /// Padding around the title.
   ///
@@ -27,7 +27,7 @@ class SingleChoiceDialog<T> extends StatelessWidget {
   /// provided (but see [contentPadding]). If it _is_ null, then an extra 20
   /// pixels of bottom padding is added to separate the [title] from the
   /// [actions].
-  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry? titlePadding;
 
   /// Padding around the content.
 
@@ -44,11 +44,11 @@ class SingleChoiceDialog<T> extends StatelessWidget {
   ///
   ///  * [SemanticsConfiguration.isRouteName], for a description of how this
   ///    value is used.
-  final String semanticLabel;
+  final String? semanticLabel;
 
   ///Callback that is called with selected item of type T which returns a
   ///Widget to build list view item inside dialog
-  final ItemBuilder<T> itemBuilder;
+  final ItemBuilder<T>? itemBuilder;
 
   /// The (optional) horizontal separator used between title, content and
   /// actions.
@@ -61,8 +61,8 @@ class SingleChoiceDialog<T> extends StatelessWidget {
   final bool isDividerEnabled;
 
   SingleChoiceDialog(
-      {Key key,
-      this.items,
+      {Key? key,
+      required this.items,
       this.onSelected,
       this.title,
       this.titlePadding,
@@ -73,8 +73,7 @@ class SingleChoiceDialog<T> extends StatelessWidget {
       this.divider = const Divider(
         height: 0.0,
       )})
-      : assert(items != null),
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +94,10 @@ class SingleChoiceDialog<T> extends StatelessWidget {
       children: items
           .map((item) => SimpleDialogOption(
                 child: itemBuilder != null
-                    ? itemBuilder(item)
+                    ? itemBuilder!(item)
                     : Text(item.toString()),
                 onPressed: () {
-                  onSelected(item);
+                  onSelected?.call(item);
                   Navigator.pop(context);
                 },
               ))
