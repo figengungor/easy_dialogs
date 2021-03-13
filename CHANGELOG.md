@@ -1,3 +1,6 @@
+## [2.0.0] - 3/13/2012
+* Add null-safety
+
 ## [1.1.0] - 3/7/2021
 Deprecated stuff is replaced.
 Thanks @dvorapa
