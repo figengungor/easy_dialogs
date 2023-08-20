@@ -156,7 +156,7 @@ class _SingleChoiceConfirmationDialogState<T>
               title: widget.itemBuilder != null
                   ? widget.itemBuilder!(item)
                   : Text(item.toString()),
-              activeColor: widget.activeColor ?? Theme.of(context).accentColor,
+              activeColor: widget.activeColor ?? Theme.of(context).colorScheme.secondary,
               value: item,
               groupValue: _chosenItem,
               onChanged: (value) {
@@ -178,8 +178,8 @@ class _SingleChoiceConfirmationDialogState<T>
         <Widget>[
           TextButton(
             style: TextButton.styleFrom(
-                primary: widget.actionButtonLabelColor ??
-                    Theme.of(context).accentColor),
+                foregroundColor: widget.actionButtonLabelColor ??
+                    Theme.of(context).colorScheme.secondary),
             child: Text(widget.cancelActionButtonLabel ?? 'CANCEL'),
             onPressed: () {
               Navigator.pop(context);
@@ -187,8 +187,8 @@ class _SingleChoiceConfirmationDialogState<T>
           ),
           TextButton(
             style: TextButton.styleFrom(
-                primary: widget.actionButtonLabelColor ??
-                    Theme.of(context).accentColor),
+                foregroundColor: widget.actionButtonLabelColor ??
+                    Theme.of(context).colorScheme.secondary),
             child: Text(widget.submitActionButtonLabel ?? 'OK'),
             onPressed: () {
               Navigator.pop(context);

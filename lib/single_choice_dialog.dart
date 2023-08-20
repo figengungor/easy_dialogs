@@ -1,7 +1,6 @@
 import 'package:easy_dialogs/utils/dialog_utils.dart';
 import 'package:easy_dialogs/utils/my_alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class SingleChoiceDialog<T> extends StatelessWidget {
   /// The choice items of type [T] to be used while building items of ListView
